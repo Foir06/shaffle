@@ -1,50 +1,42 @@
-let pyodide;
+let teams = [
+    "吉田誠一", "鈴木信夫", "ちび式じい", "田中清司", "佐藤勝美",
+    "渡辺久雄", "山本昭一", "中村富雄", "小林和男", "加藤康夫",
+    "伊藤義弘", "松本秀夫", "斉藤幸一", "三浦忠男", "藤田英二",
+    "岡田光男", "村上昭三", "長谷川健", "近藤隆一", "石井弘道"
+];
 
-async function loadPyodideAndPython() {
-    console.log("Pyodideのロードを開始...");
-    pyodide = await loadPyodide();
-    console.log("Pyodideロード完了！");
+let landmarks = [
+    "公園", "健康センター", "市民会館", "銭湯", "市民ホール",
+    "図書館", "公民館", "競馬場", "福祉センター", "市民プール",
+    "市役所", "神社", "河川敷", "パチンコ", "百貨店",
+    "郵便局", "フィットネスジム", "カラオケ喫茶", "囲碁将棋サロン", "雀荘"
+];
 
-    // Pythonスクリプトを読み込む
-    let pythonScript = await (await fetch("main.py")).text();
-    await pyodide.runPythonAsync(pythonScript);
-    console.log("Pythonスクリプトを実行しました！");
-
-    // 初回表示
-    await initializeTable();
+function updateTable() {
+    let table = document.getElementById("teamTable");
+    table.innerHTML = "";
+    for (let i = 0; i < teams.length; i++) {
+        let row = table.insertRow();
+        row.insertCell(0).innerText = teams[i];
+        row.insertCell(1).innerText = landmarks[i];
+    }
 }
 
-async function shuffleTeams() {
-    console.log("シャッフル開始...");
-
-    let result = await pyodide.runPythonAsync("shuffle_data()");
-    console.log("Python実行結果:", result);
-
-    let data = JSON.parse(result); // JSONをパース
-
-    let tableBody = document.getElementById("teamTable");
-    tableBody.innerHTML = ""; // 既存データをクリア
-    
-    data.forEach(row => {
-        let tr = document.createElement("tr");
-        let teamTd = document.createElement("td");
-        let landmarkTd = document.createElement("td");
-        
-        teamTd.textContent = row[0]; // チーム名
-        landmarkTd.textContent = row[1]; // ランドマーク名
-        
-        tr.appendChild(teamTd);
-        tr.appendChild(landmarkTd);
-        tableBody.appendChild(tr);
-    });
-
-    console.log("シャッフル完了！");
+function shuffleTeams() {
+    pyodide.runPython(`
+import random
+random.shuffle(teams)
+random.shuffle(landmarks)
+    `).then(updateTable);
 }
 
-// 初回表示のためにシャッフルを実行
-async function initializeTable() {
-    await shuffleTeams();
+async function main() {
+    window.pyodide = await loadPyodide();
+    await pyodide.runPythonAsync(`
+import random
+teams = ${JSON.stringify(teams)}
+landmarks = ${JSON.stringify(landmarks)}
+    `);
+    updateTable();
 }
-
-// PyodideをロードしてPythonを実行
-loadPyodideAndPython();
+main();
