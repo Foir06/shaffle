@@ -43,30 +43,34 @@
             }
         }
 
-        function shuffleMultipleTimes(times) {
+        function updateTable() {
+            const tbody = document.getElementById("table-body");
+            tbody.innerHTML = "";
+            for (let i = 0; i < teams.length; i++) {
+                const row = `<tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>`;
+                tbody.innerHTML += row;
+            }
+        }
+
+        function shuffleMultipleTimes(times, interval) {
             let count = 0;
 
-            function shuffleAndDisplay() {
+            function shuffleStep() {
                 shuffle(teams);
                 shuffle(landmarks);
-                const tbody = document.getElementById("table-body");
-                tbody.innerHTML = "";
-                for (let i = 0; i < teams.length; i++) {
-                    const row = `<tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>`;
-                    tbody.innerHTML += row;
-                }
-
+                updateTable();
                 count++;
+
                 if (count < times) {
-                    setTimeout(shuffleAndDisplay, 300); // 300ms ごとにシャッフル
+                    setTimeout(shuffleStep, interval);
                 }
             }
 
-            shuffleAndDisplay();
+            shuffleStep();
         }
 
         function shuffleData() {
-            shuffleMultipleTimes(5); // 5回シャッフルする
+            shuffleMultipleTimes(5, 300); // 5回シャッフル（300ms間隔）
         }
 
         shuffleData(); // 初回実行
