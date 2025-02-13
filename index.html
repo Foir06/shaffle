@@ -6,16 +6,21 @@
     <title>チームとランドマークのマッチング</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
-        table { width: 50%; margin: 20px auto; border-collapse: collapse; table-layout: fixed; }
+        table { 
+            width: 50%; 
+            margin: 20px auto; 
+            border-collapse: collapse; 
+            table-layout: fixed; /* テーブルのレイアウトを固定 */
+        }
         th, td { 
             border: 1px solid black; 
             padding: 8px; 
             height: 50px; /* セルの高さを統一 */
-            text-align: center; /* 文字を中央揃え */
-            vertical-align: middle; /* 縦方向中央揃え */
+            text-align: center; 
+            vertical-align: middle;
         }
-        tbody { transition: opacity 0.3s ease-in-out; } /* フェード効果 */
-        button { padding: 10px 20px; font-size: 16px; }
+        tbody { display: block; height: 600px; overflow: hidden; } /* 高さを固定 */
+        thead, tbody tr { display: table; width: 100%; table-layout: fixed; } /* 列幅を固定 */
     </style>
 </head>
 <body>
@@ -56,18 +61,18 @@
             const tbody = document.getElementById("table-body");
             tbody.innerHTML = "";
             for (let i = 0; i < teams.length; i++) {
-                const row = <tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>;
+                const row = `<tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>`;
                 tbody.innerHTML += row;
             }
         }
 
         function shuffleData() {
             const shuffleSteps = [
-                { times: 120, interval: 25 },  // 速い
-                { times: 100, interval: 50 },  // 少し遅く
-                { times: 20, interval: 100 },  // さらに遅く
-                { times: 25, interval: 200 },  // もっと遅く
-                { times: 6, interval: 500 }    // ゆっくり
+                { times: 120, interval: 25 },
+                { times: 100, interval: 50 },
+                { times: 20, interval: 100 },
+                { times: 25, interval: 200 },
+                { times: 6, interval: 500 }
             ];
 
             let stepIndex = 0;
@@ -98,7 +103,6 @@
             shuffleStep();
         }
 
-        // 初回は1回だけシャッフル
         shuffle(teams);
         shuffle(landmarks);
         updateTable();
