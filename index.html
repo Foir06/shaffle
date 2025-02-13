@@ -70,10 +70,13 @@
         }
 
         function shuffleData() {
-            shuffleMultipleTimes(5, 300); // 5回シャッフル（300ms間隔）
+            shuffleMultipleTimes(5, 300); // ボタンを押したときのみ5回シャッフル
         }
 
-        shuffleData(); // 初回実行
+        // 初回は1回だけシャッフル
+        shuffle(teams);
+        shuffle(landmarks);
+        updateTable();
     </script>
 </body>
 </html>
