@@ -52,29 +52,37 @@
             }
         }
 
-        function shuffleMultipleTimes(times, interval) {
+        function shuffleData() {
+            const shuffleSteps = [
+                { times: 120, interval: 25 },  // 速い
+                { times: 100, interval: 50 },  // 少し遅く
+                { times: 20, interval: 100 },  // さらに遅く
+                { times: 25, interval: 200 },  // もっと遅く
+                { times: 6, interval: 500 }    // ゆっくり
+            ];
+
+            let stepIndex = 0;
             let count = 0;
 
             function shuffleStep() {
+                if (stepIndex >= shuffleSteps.length) return;
+
                 shuffle(teams);
                 shuffle(landmarks);
                 updateTable();
                 count++;
 
-                if (count < times) {
-                    setTimeout(shuffleStep, interval);
+                if (count >= shuffleSteps[stepIndex].times) {
+                    stepIndex++;
+                    count = 0;
+                }
+
+                if (stepIndex < shuffleSteps.length) {
+                    setTimeout(shuffleStep, shuffleSteps[stepIndex].interval);
                 }
             }
 
             shuffleStep();
-        }
-
-        function shuffleData() {
-            shuffleMultipleTimes(120, 25); //3
-            shuffleMultipleTimes(100, 50); //5
-            shuffleMultipleTimes(20, 100); //2
-            shuffleMultipleTimes(25, 200); //5
-            shuffleMultipleTimes(6, 500); // ボタンを押したときのみ5回シャッフル
         }
 
         // 初回は1回だけシャッフル
