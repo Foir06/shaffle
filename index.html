@@ -6,21 +6,9 @@
     <title>チームとランドマークのマッチング</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
-        table { 
-            width: 50%; 
-            margin: 20px auto; 
-            border-collapse: collapse; 
-            table-layout: fixed; /* テーブルのレイアウトを固定 */
-        }
-        th, td { 
-            border: 1px solid black; 
-            padding: 8px; 
-            height: 50px; /* セルの高さを統一 */
-            text-align: center; 
-            vertical-align: middle;
-        }
-        tbody { display: block; height: 600px; overflow: hidden; } /* 高さを固定 */
-        thead, tbody tr { display: table; width: 100%; table-layout: fixed; } /* 列幅を固定 */
+        table { width: 50%; margin: 20px auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; }
+        button { padding: 10px 20px; font-size: 16px; }
     </style>
 </head>
 <body>
@@ -59,11 +47,7 @@
 
         function updateTable() {
             const tbody = document.getElementById("table-body");
-            tbody.innerHTML = "";
-            for (let i = 0; i < teams.length; i++) {
-                const row = `<tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>`;
-                tbody.innerHTML += row;
-            }
+            tbody.innerHTML = teams.map((team, i) => `<tr><td>${team}</td><td>${landmarks[i]}</td></tr>`).join('');
         }
 
         function shuffleData() {
@@ -82,7 +66,6 @@
             function shuffleStep() {
                 if (stepIndex >= shuffleSteps.length) return;
 
-                shuffle(teams);
                 shuffle(landmarks);
                 updateTable();
                 totalCount++;
@@ -103,8 +86,6 @@
             shuffleStep();
         }
 
-        shuffle(teams);
-        shuffle(landmarks);
         updateTable();
     </script>
 </body>
