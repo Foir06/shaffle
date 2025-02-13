@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>チームとランドマークのマッチング</title>
-    <script src="https://pyodide-cdn2.iodide.io/v0.23.4/full/pyodide.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        table { width: 50%; margin: 20px auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; }
+        button { padding: 10px 20px; font-size: 16px; }
+    </style>
 </head>
 <body>
     <h1>チームとランドマークのマッチング</h1>
@@ -13,9 +17,44 @@
         <thead>
             <tr><th>チーム</th><th>ランドマーク</th></tr>
         </thead>
-        <tbody id="teamTable"></tbody>
+        <tbody id="table-body">
+        </tbody>
     </table>
-    <button onclick="shuffleTeams()">シャッフル</button>
-    <script src="script.js"></script>
+    <button onclick="shuffleData()">シャッフル</button>
+    <script>
+        const teams = [
+            "吉田誠一", "鈴木信夫", "ちび式じい", "田中清司", "佐藤勝美",
+            "渡辺久雄", "山本昭一", "中村富雄", "小林和男", "加藤康夫",
+            "伊藤義弘", "松本秀夫", "斉藤幸一", "三浦忠男", "藤田英二",
+            "岡田光男", "村上昭三", "長谷川健", "近藤隆一", "石井弘道"
+        ];
+        
+        const landmarks = [
+            "公園", "健康センター", "市民会館", "銭湯", "市民ホール",
+            "図書館", "公民館", "競馬場", "福祉センター", "市民プール",
+            "市役所", "神社", "河川敷", "パチンコ", "百貨店",
+            "郵便局", "フィットネスジム", "カラオケ喫茶", "囲碁将棋サロン", "雀荘"
+        ];
+        
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        
+        function shuffleData() {
+            shuffle(teams);
+            shuffle(landmarks);
+            const tbody = document.getElementById("table-body");
+            tbody.innerHTML = "";
+            for (let i = 0; i < teams.length; i++) {
+                const row = `<tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>`;
+                tbody.innerHTML += row;
+            }
+        }
+        
+        shuffleData(); // 初回実行
+    </script>
 </body>
 </html>
