@@ -23,21 +23,19 @@
     <button onclick="shuffleData()">シャッフル</button>
     <script>
         const teams = [
-            "チーム1", "チーム2", "チーム3", "チーム4", "チーム5",
-            "チーム6", "チーム7", "チーム8", "チーム9", "チーム10",
-            "チーム11", "チーム12", "チーム13", "チーム14", "チーム15",
-            "チーム16", "チーム17", "チーム18", "チーム19", "チーム20",
-            " ", " ", " ", " "
+            "吉田誠一", "鈴木信夫", "ちび式じい", "田中清司", "佐藤勝美",
+            "渡辺久雄", "山本昭一", "中村富雄", "小林和男", "加藤康夫",
+            "伊藤義弘", "松本秀夫", "斉藤幸一", "三浦忠男", "藤田英二",
+            "岡田光男", "村上昭三", "長谷川健", "近藤隆一", "石井弘道"
         ];
         
         const landmarks = [
-            "#1", "#2", "#3", "#4", "#5",
-            "#6", "#7", "#8", "#9", "#10",
-            "#11", "#12", "#13", "#14", "#15",
-            "#16", "#17", "#18", "#19", "#20",
-            "#21", "#22", "#23", "#24"
+            "公園", "健康センター", "市民会館", "銭湯", "市民ホール",
+            "図書館", "公民館", "競馬場", "福祉センター", "市民プール",
+            "市役所", "神社", "河川敷", "パチンコ", "百貨店",
+            "郵便局", "フィットネスジム", "カラオケ喫茶", "囲碁将棋サロン", "雀荘"
         ];
-
+        
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -47,16 +45,20 @@
 
         function updateTable() {
             const tbody = document.getElementById("table-body");
-            tbody.innerHTML = teams.map((team, i) => `<tr><td>${team}</td><td>${landmarks[i]}</td></tr>`).join('');
+            tbody.innerHTML = "";
+            for (let i = 0; i < teams.length; i++) {
+                const row = `<tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>`;
+                tbody.innerHTML += row;
+            }
         }
 
         function shuffleData() {
             const shuffleSteps = [
-                { times: 120, interval: 25 },
-                { times: 100, interval: 50 },
-                { times: 20, interval: 100 },
-                { times: 25, interval: 200 },
-                { times: 6, interval: 500 }
+                { times: 120, interval: 25 },  // 速い
+                { times: 100, interval: 50 },  // 少し遅く
+                { times: 20, interval: 100 },  // さらに遅く
+                { times: 25, interval: 200 },  // もっと遅く
+                { times: 6, interval: 500 }    // ゆっくり
             ];
 
             let stepIndex = 0;
@@ -66,6 +68,7 @@
             function shuffleStep() {
                 if (stepIndex >= shuffleSteps.length) return;
 
+                shuffle(teams);
                 shuffle(landmarks);
                 updateTable();
                 totalCount++;
@@ -86,6 +89,9 @@
             shuffleStep();
         }
 
+        // 初回は1回だけシャッフル
+        shuffle(teams);
+        shuffle(landmarks);
         updateTable();
     </script>
 </body>
