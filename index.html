@@ -49,7 +49,7 @@
             const tbody = document.getElementById("table-body");
             tbody.innerHTML = "";
             for (let i = 0; i < teams.length; i++) {
-                const row = <tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>;
+                const row = `<tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>`;
                 tbody.innerHTML += row;
             }
         }
