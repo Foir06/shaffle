@@ -42,18 +42,33 @@
                 [array[i], array[j]] = [array[j], array[i]];
             }
         }
-        
-        function shuffleData() {
-            shuffle(teams);
-            shuffle(landmarks);
-            const tbody = document.getElementById("table-body");
-            tbody.innerHTML = "";
-            for (let i = 0; i < teams.length; i++) {
-                const row = `<tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>`;
-                tbody.innerHTML += row;
+
+        function shuffleMultipleTimes(times) {
+            let count = 0;
+
+            function shuffleAndDisplay() {
+                shuffle(teams);
+                shuffle(landmarks);
+                const tbody = document.getElementById("table-body");
+                tbody.innerHTML = "";
+                for (let i = 0; i < teams.length; i++) {
+                    const row = `<tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>`;
+                    tbody.innerHTML += row;
+                }
+
+                count++;
+                if (count < times) {
+                    setTimeout(shuffleAndDisplay, 300); // 300ms ごとにシャッフル
+                }
             }
+
+            shuffleAndDisplay();
         }
-        
+
+        function shuffleData() {
+            shuffleMultipleTimes(5); // 5回シャッフルする
+        }
+
         shuffleData(); // 初回実行
     </script>
 </body>
