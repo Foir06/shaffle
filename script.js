@@ -3,7 +3,6 @@ let pyodide;
 async function loadPyodideAndPython() {
     console.log("Pyodideのロードを開始...");
     pyodide = await loadPyodide();
-    await pyodide.loadPackage("random"); // ランダムモジュールをロード
     console.log("Pyodideロード完了！");
 
     // Pythonスクリプトを読み込む
