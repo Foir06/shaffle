@@ -6,9 +6,12 @@
     <title>チームとランドマークのマッチング</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
-        table { width: 50%; margin: 20px auto; border-collapse: collapse; }
-        th, td { border: 1px solid black; padding: 8px; }
-        button { padding: 10px 20px; font-size: 16px; }
+        table { width: 50%; margin: 20px auto; border-collapse: collapse; table-layout: fixed; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        button { padding: 10px 20px; font-size: 16px; margin-top: 20px; }
+        tbody { display: block; width: 100%; }
+        tr { display: flex; width: 100%; }
+        td, th { flex: 1; }
     </style>
 </head>
 <body>
@@ -46,20 +49,19 @@
         }
 
         function updateTable() {
-            const tbody = document.getElementById("table-body");
-            tbody.innerHTML = "";
+            const rows = document.querySelectorAll("#table-body tr");
             for (let i = 0; i < teams.length; i++) {
-                const row = `<tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>`;
-                tbody.innerHTML += row;
+                rows[i].cells[0].textContent = teams[i];
+                rows[i].cells[1].textContent = landmarks[i];
             }
         }
 
         function shuffleData() {
             const shuffleSteps = [
-                { times: 40, interval: 50 },  // 速い
-                { times: 20, interval: 150 },  // 少し遅く
-                { times: 10, interval: 300 },  // さらに遅く
-                { times: 4, interval: 500 },  // もっと遅く
+                { times: 40, interval: 50 },  
+                { times: 20, interval: 150 },  
+                { times: 10, interval: 300 },  
+                { times: 4, interval: 500 },   
             ];
 
             let stepIndex = 0;
@@ -90,10 +92,23 @@
             shuffleStep();
         }
 
-        // 初回は1回だけシャッフル
+        function initTable() {
+            const tbody = document.getElementById("table-body");
+            for (let i = 0; i < teams.length; i++) {
+                const row = document.createElement("tr");
+                const teamCell = document.createElement("td");
+                const landmarkCell = document.createElement("td");
+                teamCell.textContent = teams[i];
+                landmarkCell.textContent = landmarks[i];
+                row.appendChild(teamCell);
+                row.appendChild(landmarkCell);
+                tbody.appendChild(row);
+            }
+        }
+
         shuffle(teams);
         shuffle(landmarks);
-        updateTable();
+        initTable();
     </script>
 </body>
 </html>
