@@ -1,18 +1,28 @@
 let pyodide;
 
 async function loadPyodideAndPython() {
+    console.log("Pyodideのロードを開始...");
     pyodide = await loadPyodide();
     await pyodide.loadPackage("random"); // ランダムモジュールをロード
-    await pyodide.runPythonAsync(await (await fetch("main.py")).text());
-    
-    // 初期テーブルを表示
+    console.log("Pyodideロード完了！");
+
+    // Pythonスクリプトを読み込む
+    let pythonScript = await (await fetch("main.py")).text();
+    await pyodide.runPythonAsync(pythonScript);
+    console.log("Pythonスクリプトを実行しました！");
+
+    // 初回表示
     await initializeTable();
 }
 
 async function shuffleTeams() {
-    let result = await pyodide.runPythonAsync("shuffle_data()"); // Python関数を実行
+    console.log("シャッフル開始...");
+
+    let result = await pyodide.runPythonAsync("shuffle_data()");
+    console.log("Python実行結果:", result);
+
     let data = JSON.parse(result); // JSONをパース
-    
+
     let tableBody = document.getElementById("teamTable");
     tableBody.innerHTML = ""; // 既存データをクリア
     
@@ -28,6 +38,8 @@ async function shuffleTeams() {
         tr.appendChild(landmarkTd);
         tableBody.appendChild(tr);
     });
+
+    console.log("シャッフル完了！");
 }
 
 // 初回表示のためにシャッフルを実行
