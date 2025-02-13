@@ -5,10 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>チームとランドマークのマッチング</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        table { width: 50%; margin: 20px auto; border-collapse: collapse; }
-        th, td { border: 1px solid black; padding: 8px; }
-        button { padding: 10px 20px; font-size: 16px; }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            max-width: 600px;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -55,43 +96,11 @@
         }
 
         function shuffleData() {
-            const shuffleSteps = [
-                { times: 120, interval: 25 },  // 速い
-                { times: 100, interval: 50 },  // 少し遅く
-                { times: 20, interval: 100 },  // さらに遅く
-                { times: 25, interval: 200 },  // もっと遅く
-                { times: 6, interval: 500 }    // ゆっくり
-            ];
-
-            let stepIndex = 0;
-            let totalCount = 0;
-            let currentStep = shuffleSteps[stepIndex];
-
-            function shuffleStep() {
-                if (stepIndex >= shuffleSteps.length) return;
-
-                shuffle(teams);
-                shuffle(landmarks);
-                updateTable();
-                totalCount++;
-
-                if (totalCount >= currentStep.times) {
-                    stepIndex++;
-                    if (stepIndex < shuffleSteps.length) {
-                        currentStep = shuffleSteps[stepIndex];
-                        totalCount = 0;
-                    }
-                }
-
-                if (stepIndex < shuffleSteps.length) {
-                    setTimeout(shuffleStep, currentStep.interval);
-                }
-            }
-
-            shuffleStep();
+            shuffle(teams);
+            shuffle(landmarks);
+            updateTable();
         }
 
-        // 初回は1回だけシャッフル
         shuffle(teams);
         shuffle(landmarks);
         updateTable();
