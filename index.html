@@ -54,15 +54,11 @@
 
         function updateTable() {
             const tbody = document.getElementById("table-body");
-            tbody.style.opacity = "0"; // フェードアウト
-            setTimeout(() => {
-                tbody.innerHTML = "";
-                for (let i = 0; i < teams.length; i++) {
-                    const row = `<tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>`;
-                    tbody.innerHTML += row;
-                }
-                tbody.style.opacity = "1"; // フェードイン
-            }, 200); // 少し遅延させる
+            tbody.innerHTML = "";
+            for (let i = 0; i < teams.length; i++) {
+                const row = <tr><td>${teams[i]}</td><td>${landmarks[i]}</td></tr>;
+                tbody.innerHTML += row;
+            }
         }
 
         function shuffleData() {
